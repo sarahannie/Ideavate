@@ -9,7 +9,8 @@ import team3 from "@/public/Team (3).png"
 import team4 from "@/public/Team (4).png"
 import rock from "@/public/rocket-coins.png"
 import content from "@/public/Content.png"
-import {FaDribbble, FaFacebook, FaLinkedin, FaTwitter, FaEnvelope, FaExpandAlt, FaInvision }from "react-icons/fa"
+import contact from "@/public/contect.png"
+import {FaDribbble, FaLinkedin, FaTwitter, FaEnvelope, FaExpandAlt, FaInvision }from "react-icons/fa"
 import { Input } from 'postcss'
 
 const Landpage = () => {
@@ -323,47 +324,140 @@ and Investors
         <div className="grid md:grid-cols-2 gap-8 items-center">
           {/* Form Section */}
           <div>
-            <h2 className="text-3xl font-bold mb-6">Contact Us</h2>
-            <form onSubmit={(e) => e.preventDefault()} className="space-y-6">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label htmlFor="firstName">First Name</label>
-                  <input id="firstName" placeholder="John" />
-                </div>
-                <div className="space-y-2">
-                  <label htmlFor="lastName">Last Name</label>
-                  <input id="lastName" placeholder="Doe" />
-                </div>
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="email">Email</label>
-                <input id="email" type="email" placeholder="john.doe@example.com" />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="phone">Phone Number</label>
-                <input id="phone" type="tel" placeholder="+1 (555) 000-0000" />
-              </div>
-              <div className="space-y-2">
-                <label htmlFor="message">Message Us</label>
-                <textarea id="message" placeholder="Your message here..." />
-              </div>
-              <div className="flex items-center space-x-2">
-                <checkbox id="terms" />
-                <label
-                  htmlFor="terms"
-                  className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-                >
-                  I agree to the terms and conditions
-                </label>
-              </div>
-              <button type="submit" className="w-full">Send Message</button>
-            </form>
+            <h2 className="text-3xl font-bold mb-6 ml-6">Get in touch</h2>
+            <h4 className='ml-6'>Our friendly team would love to hear from you.</h4>
+            <form className="mx-auto mt-6 max-w-xl sm:mt-6">
+  <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
+    <div>
+      <label
+        htmlFor="first-name"
+        className="block text-sm font-semibold leading-6 text-gray-900"
+      >
+        First name
+      </label>
+      <div className="mt-2.5">
+        <input
+          required=""
+          type="text"
+          name="first-name"
+          id="first-name"
+          autoComplete="given-name"
+          placeholder="Your First Name"
+          className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+        />
+      </div>
+    </div>
+    <div>
+      <label
+        htmlFor="last-name"
+        className="block text-sm font-semibold leading-6 text-gray-900"
+      >
+        Last name
+      </label>
+      <div className="mt-2.5">
+        <input
+          required=""
+          type="text"
+          name="last-name"
+          id="last-name"
+          autoComplete="family-name"
+          placeholder="Your Last Name"
+          className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+        />
+      </div>
+    </div>
+    <div className="sm:col-span-2">
+      <label
+        htmlFor="company"
+        className="block text-sm font-semibold leading-6 text-gray-900"
+      >
+        Company
+      </label>
+      <div className="mt-2.5">
+        <input
+          required=""
+          type="text"
+          name="company"
+          id="company"
+          autoComplete="organization"
+          placeholder="Your Company Name"
+          className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+        />
+      </div>
+    </div>
+    <div className="sm:col-span-2">
+      <label
+        htmlFor="email"
+        className="block text-sm font-semibold leading-6 text-gray-900"
+      >
+        Email
+      </label>
+      <div className="mt-2.5">
+        <input
+          required=""
+          type="email"
+          name="email"
+          id="email"
+          autoComplete="email"
+          placeholder="Your Email Address"
+          className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+        />
+      </div>
+    </div>
+    <div className="sm:col-span-2">
+      <label
+        htmlFor="phone"
+        className="block text-sm font-semibold leading-6 text-gray-900"
+      >
+        Phone number
+      </label>
+      <div className="mt-2.5">
+        <input
+          required=""
+          type="tel"
+          name="phone"
+          id="phone"
+          autoComplete="tel"
+          placeholder="Your Phone Number"
+          className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+        />
+      </div>
+    </div>
+    <div className="sm:col-span-2">
+      <label
+        htmlFor="message"
+        className="block text-sm font-semibold leading-6 text-gray-900"
+      >
+        Message
+      </label>
+      <div className="mt-2.5">
+        <textarea
+          name="message"
+          id="message"
+          rows={4}
+          placeholder="Share your thoughts..."
+          className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-blue-600 sm:text-sm sm:leading-6"
+          defaultValue={""}
+        />
+      </div>
+    </div>
+  </div>
+  <div className="mt-10">
+    <button
+      type="submit"
+      className="bg-black text-white rounded-sm py-2 w-full block"
+    >
+      Submit →
+    </button>
+  </div>
+</form>
+
           </div>
 
           {/* Image Section */}
-          <div className="relative h-[600px]">
+          <div className="relative h-[800px]">
             <Image
-              src="/placeholder.svg?height=600&width=400"
+              src={contact}
               alt="Beautiful girl"
               layout="fill"
               objectFit="cover"
