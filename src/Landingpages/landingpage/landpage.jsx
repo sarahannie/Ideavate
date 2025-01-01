@@ -34,7 +34,7 @@ const Landpage = () => {
 
   return (
     <>
-  {/* <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56"> */}
+  <div className="flex flex-col items-center justify-center">
   <div className="pt-12 sm:pt-18 lg:pt-16">
   <div className="text-center px-4 sm:px-6 lg:px-8">
     <h1 className="text-balance text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl">
@@ -54,7 +54,7 @@ const Landpage = () => {
   </div>
 </div>
 {/* Trust Section */}
-<div className="py-2 sm:py-8 lg:py-6 mt-12 w-auto mx-20 rounded-md bg-gradient-to-l from-green to-white">
+<div className="py-2 sm:py-8 lg:py-6 mt-12 w-auto px-16 rounded-md bg-gradient-to-l from-green to-white">
   <div className="text-pretty text-lg font-medium text-white sm:text-xl text-center py-8">
     Trusted by next gen founders from
   </div>
@@ -68,53 +68,52 @@ const Landpage = () => {
 </div>
     
 {/* About Section */}
-<section className=" body-font">
-  <div className="container mx-auto flex px-5 py-24 md:flex-row flex-col items-center">
-    <div className="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-      <h3 className="title-font sm:text-3xl text-2xl mb-4 font-medium text-green">
-      About ideavate?
-      </h3>
-      <h1 className="mb-8 text-dark sm:text-6xl text-4xl leading-relaxed">
-     
-Empowering <span className='text-green'>Ideas</span>  &
-<span className='text-green'> Connecting </span>Innovators
-and Investors
-      </h1>
-      <div className="flex justify-center">
-        <a href='' className="inline-flex text-dark border-0 py-2 px-6 focus:outline-none hover:text-green rounded text-lg">
-          Read More
-        </a>
+<section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="flex flex-col md:flex-row items-center">
+        <div className="md:w-1/2 md:pr-12 mb-10 md:mb-0">
+          <h3 className="text-2xl font-semibold text-green mb-4">
+            About ideavate
+          </h3>
+          <h2 className="text-4xl sm:text-5xl font-bold mb-6">
+            Empowering <span className='text-green'>Ideas</span> &
+            <span className='text-green'> Connecting </span>Innovators
+            and Investors
+          </h2>
+          <button  variant="outline" size="lg" className="mt-6 hover:text-green">
+            Read More
+          </button>
+        </div>
+        <div className="md:w-1/2">
+          <Image
+            src={frame}
+            alt="About Ideavate"
+            width={540}
+            height={300}
+            className="rounded-lg"
+          />
+        </div>
       </div>
-    </div>
-    <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-      <Image
-        className="object-cover object-center rounded"
-        alt="hero"
-        src={frame}
-      />
-    </div>
-  </div>
 </section>
 
 {/* Our team */}
-<div className="p-20">
+<div  className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
   <div className="text-center mb-16">
     
-    <h3 className="text-3xl sm:text-4xl leading-normal font-extrabold tracking-tight text-gray-900">
+    <h3 className="text-3xl sm:text-4xl font-bold mb-4">
         Meet Our Team
     </h3>
-    <p className="mt-4 text-sm leading-7 text-gray-500 font-regular">
-    Lorem ipsum dolor sit amet consectetur. Id odio sed at sodales elit. Libero sed tellus tellus condimentum ut volutpat. At id arcu arcu scelerisque. Sit
+    <p className="text-gray-600 max-w-2xl mx-auto">
+    Our diverse team of experts is dedicated to revolutionizing the way ideas are funded and brought to life.
     </p>
   </div>
-  <div className="sm:grid grid-cols-2 md:grid-cols-4 col-gap-6 mx-auto">
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-1">
     <div className="text-start">
       <a href="#">
         <Image
           alt="team"
           className="mb-3 rounded-small "
-          width={300}
-          height={300}
+          width={250}
+          height={250}
           src={team}
         />
       </a>
@@ -122,7 +121,7 @@ and Investors
         john doe
       </a>
       <h3 className="text-green  uppercase text-sm">CEO Founder</h3>
-      <p className="text-gray-500 text-start   text-sm">Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
+      <p className="text-gray-500 text-start w-[270px]  text-sm">Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
       <div className="my-4 flex justify-start items-center">
         <a href="#" className='pr-3'>
         <FaTwitter className='w-6 h-6 flex  text-gray-500' />
@@ -140,7 +139,7 @@ and Investors
         <Image
           alt="team"
           className="mb-3 rounded-small "
-          width={300}
+          width={250}
           height={300}
           src={team2}
         />
@@ -149,7 +148,7 @@ and Investors
         john doe
       </a>
       <h3 className="text-green  uppercase text-sm">CEO Founder</h3>
-      <p className="text-gray-500 text-start   text-sm">Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
+      <p className="text-gray-500 text-start w-[270px]  text-sm">Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
       <div className="my-4 flex justify-start items-center">
         <a href="#" className='pr-3'>
         <FaTwitter className='w-6 h-6 flex  text-gray-500' />
@@ -167,7 +166,7 @@ and Investors
         <Image
           alt="team"
           className="mb-3 rounded-small "
-          width={300}
+          width={250}
           height={300}
           src={team3}
         />
@@ -176,7 +175,7 @@ and Investors
         john doe
       </a>
       <h3 className="text-green  uppercase text-sm">CEO Founder</h3>
-      <p className="text-gray-500 text-start  text-sm">Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
+      <p className="text-gray-500 text-start w-[270px]  text-sm">Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
       <div className="my-4 flex justify-start items-center">
         <a href="#" className='pr-3'>
         <FaTwitter className='w-6 h-6 flex  text-gray-500' />
@@ -194,7 +193,7 @@ and Investors
         <Image
           alt="team"
           className="mb-3 rounded-small "
-          width={300}
+          width={250}
           height={300}
           src={team4}
         />
@@ -203,7 +202,7 @@ and Investors
         john doe
       </a>
       <h3 className="text-green  uppercase text-sm">CEO Founder</h3>
-      <p className="text-gray-500 text-start  text-sm">Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
+      <p className="text-gray-500 text-start w-[270px]  text-sm">Former co-founder of Opendoor. Early staff at Spotify and Clearbit.</p>
       <div className="my-4 flex justify-start items-center">
         <a href="#" className='pr-3'>
         <FaTwitter className='w-6 h-6 flex  text-gray-500' />
@@ -218,102 +217,97 @@ and Investors
     </div>
   </div>
 </div>
-{/* How it works */}
-<section className=" body-font bg-gradient-to-l from-green to-white ">
-  <div className="container mx-auto flex px-5 py-4 md:flex-row flex-col items-center">
-    <div className="lg:flex-grow md:w-1/2 lg:pr-24 md:pr-16 flex flex-col md:items-start md:text-left mb-16 md:mb-0 items-center text-center">
-      <h3 className="title-font sm:text-3xl text-2xl mb-4 font-medium text-green">
-      How ideavate Works?
-      </h3>
-      <h1 className="mb-8 text-dark sm:text-6xl text-4xl leading-relaxed">
-      Crowdfunding System with Expert Ranking
-      </h1>
 
-    </div>
-    <div className="lg:max-w-lg lg:w-full md:w-1/2 w-5/6">
-      <Image
-        className="rock"
-        alt="hero"
-        src={rock}
-        width={300}
-      />
-    </div>
-  </div>
-</section>
-{/* Innovate */}
-<section className="py-16 bg-gray-100">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {sections.map((section, index) => (
-            <div key={index} className="flex flex-col items-center text-center">
-              <div className="mb-4 p-4 bg-green rounded-full">
-                <section.Icon className="w-8 h-8 text-white" />
-              </div>
-              <h2 className="text-2xl font-bold mb-2">{section.title}</h2>
-              <p className="mb-4">{section.description}</p>
-            </div>
-          ))}
-        </div>
-        <div className="mt-12 text-center">
-          <button className='bg-black text-white py-2 rounded-md px-4'>Read More</button>
+{/* How it works */}
+<section className="w-full bg-gradient-to-r from-green to-white py-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex flex-col md:flex-row items-center">
+          <div className="md:w-1/2 mb-10 md:mb-0">
+            <h3 className="text-2xl font-semibold text-white mb-4">
+              How ideavate Works?
+            </h3>
+            <h2 className="text-4xl sm:text-5xl font-bold text-gray-900 mb-6">
+              Crowdfunding System with Expert Ranking
+            </h2>
+          </div>
+          <div className="md:w-1/2 ml-10">
+            <Image
+              src={rock}
+              alt="How it works"
+              width={300}
+              height={300}
+              className="mx-auto"
+            />
+          </div>
         </div>
       </div>
-  </section>
+    </section>
+{/* Innovate */}
+<section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {sections.map((section, index) => (
+          <div key={index} className="flex flex-col items-center text-center">
+            <div className="mb-4 p-4 bg-green rounded-full">
+              <section.Icon className="w-8 h-8 text-white" />
+            </div>
+            <h3 className="text-2xl font-bold mb-2">{section.title}</h3>
+            <p className="text-gray-600 mb-4">{section.description}</p>
+          </div>
+        ))}
+      </div>
+      <div className="mt-12 text-center">
+        <button size="lg" className="bg-black text-white hover:bg-green px-4 py-2 rounded-md">
+          Read More
+        </button>
+      </div>
+    </section>
   {/* feature */}
-  <section className="py-16 px-4 md:px-8 bg-white">
-      <div className="container mx-auto">
-        <h2 className="text-4xl md:text-3xl font-bold text-center mb-6">
-          <span className="bg-gradient-to-r from-green to-white text-transparent bg-clip-text">
-            Features
-          </span>
-        </h2>
-        
-        <div className="max-w-3xl mx-auto text-center mb-12">
-          <h3 className="text-2xl md:text-3xl font-semibold mb-4">
+  <section className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-20">
+      <h2 className="text-4xl font-bold text-center mb-6">
+        <span className="bg-gradient-to-r from-green to-white text-transparent bg-clip-text">
+          Features
+        </span>
+      </h2>
+      
+      <div className="max-w-3xl mx-auto text-center mb-12">
+        <h3 className="text-2xl sm:text-3xl font-semibold mb-4">
           Cutting-edge features for advanced analytics
-          </h3>
-          <p className="text-gray-600 text-lg">
+        </h3>
+        <p className="text-gray-600 text-lg">
           Powerful, self-serve product and growth analytics to help you convert, engage, and retain more users. Trusted by over 4,000 startups.
-          </p>
-        </div>
-        
-        <div className="relative max-w-4xl mx-auto">
-          <Image
-            src={content}
-            alt="Phone and Dashboard Interface"
-            width={900}
-            height={700}
-            className="rounded-lg shadow-xl"
-          />
-          {/* <div className="absolute inset-0 bg-gradient-to-t from-white via-transparent to-transparent"></div> */}
-        </div>
+        </p>
+      </div>
+      
+      <div className="relative max-w-4xl mx-auto">
+        <Image
+        src={content}
+          alt="Features Dashboard"
+          width={800}
+          height={600}
+          className="rounded-lg shadow-xl"
+        />
       </div>
     </section>
 
     {/* action item */}
-    <section className="py-16 px-4 md:px-8 bg-gradient-to-br from-white to-green">
-      <div className="container mx-auto">
+    <section className="w-full bg-gradient-to-br from-white to-green py-20">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid md:grid-cols-2 gap-8">
-          {/* Competitive Landscape */}
           <div>
-            <h2 className="text-2xl md:text-4xl text-green font-bold mb-4">
+            <h2 className="text-3xl sm:text-4xl font-bold text-green mb-4">
               Competitive Landscape
             </h2>
-            <p className="text-gray-700 text-x mb-4">
-              Traditional Crowdfunding Platforms lack expert validation, leading to higher risks for investors
+            <p className="text-gray-700 text-lg">
+              Traditional Crowdfunding Platforms lack expert validation, leading to higher risks for investors.
             </p>
-            
           </div>
-
-          {/* Our Solution */}
           <div>
-            <h2 className="text-2xl md:text-4xl text-green font-bold mb-4 text-green-600">
+            <h2 className="text-3xl sm:text-4xl font-bold text-green mb-4">
               Our Solution
             </h2>
-            <p className="text-gray-700 text-x mb-4">
-            Combines expert-led vetting and scalable crowdfunding, bridging the gap between trust and accessibility.
+            <p className="text-gray-700 text-lg">
+              Combines expert-led vetting and scalable crowdfunding, bridging the gap between trust and accessibility.
             </p>
-           
           </div>
         </div>
       </div>
@@ -324,8 +318,8 @@ and Investors
         <div className="grid md:grid-cols-2 gap-8 items-center">
           {/* Form Section */}
           <div>
-            <h2 className="text-3xl font-bold mb-6 ml-6">Get in touch</h2>
-            <h4 className='ml-6'>Our friendly team would love to hear from you.</h4>
+            <h2 className="text-3xl font-bold mb-3 ml-3">Get in touch</h2>
+            <h4 className='ml-3'>Our friendly team would love to hear from you.</h4>
             <form className="mx-auto mt-6 max-w-xl sm:mt-6">
   <div className="grid grid-cols-1 gap-x-8 gap-y-6 sm:grid-cols-2">
     <div>
@@ -467,6 +461,7 @@ and Investors
         </div>
       </div>
     </section>
+  </div>
     </>
   )
 }
