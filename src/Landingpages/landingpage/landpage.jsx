@@ -7,7 +7,7 @@ import contact from "@/public/contect.png"
 import { Input } from 'postcss'
 import Landinghero from '@/src/components/Landinghero'
 import Founder from '@/src/components/founder'
-import AboutlandingPage from '@/src/components/AboutlandingPage'
+import AboutlandingPage from '@/src/components/aboutus'
 import Team from '@/src/components/Team'
 import Howitwork from '@/src/components/Howitwork'
 import Innovate from '@/src/components/Innovate'

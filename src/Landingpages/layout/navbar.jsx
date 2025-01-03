@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link';
 import React, { useState } from 'react';
 
 const Navbar = () => {
@@ -27,21 +28,21 @@ const Navbar = () => {
             <div className="flex  items-center justify-center sm:items-stretch sm:justify-start">
             <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
-                  <a
-                    href="#"
+                  <Link
+                    href="/"
                     className="rounded-md bg-green px-4 py-2 text-sm font-medium text-white"
                     aria-current="page"
                   >
                     Home
-                  </a>
-                  <a
-                    href="#"
+                  </Link>
+                  <Link
+                    href="/about"
                     className="rounded-md px-4 py-2 text-sm font-medium text-dark hover:bg-green hover:text-white"
                   >
                     About
-                  </a>
+                  </Link>
                   <a
-                    href="#"
+                    href="/workflow"
                     className="rounded-md px-4 py-2 text-sm font-medium text-dark hover:bg-green hover:text-white"
                   >
                     Work Flow
