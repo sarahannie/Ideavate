@@ -48,7 +48,7 @@ const Navbar = () => {
                     Work Flow
                   </a>
                   <a
-                    href="#"
+                    href="/contact"
                     className="rounded-md px-4 py-2 text-sm font-medium text-dark hover:bg-green hover:text-white"
                   >
                     Contact
