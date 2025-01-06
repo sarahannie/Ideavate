@@ -36,8 +36,13 @@ const Signup = () => {
     } 
   return (
     <>
-    <div className='flex justify-center max-w-2xl mx-auto py-16 px-4 sm:px-6 lg:px-8 shadow-lg shadow-indigo-200/50 mt-20 mb-20 rounded-lg'>
-    <form onSubmit={handleSubmit} className="mt-8 w-1/2 space-y-6">
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+    <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-lg shadow-indigo-200/50">
+    <div className="text-center">
+          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Sign up</h2>
+          <p className="mt-2 text-sm text-gray-600">Create a new account</p>
+    </div>
+    <form onSubmit={handleSubmit} className="mt-8  space-y-6">
     <div className="rounded-md shadow-sm -space-y-px">
       <div className='my-2'>
         <label htmlFor="name" className="sr-only">
@@ -128,6 +133,8 @@ const Signup = () => {
     )}
   </form>
     </div>
+    </div>
+    
     </>
   )
 }
