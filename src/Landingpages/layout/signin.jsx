@@ -6,6 +6,7 @@ import { useRouter } from 'next/navigation'
 import React from 'react'
 import group from '@/public/Group.png'
 import Image from 'next/image'
+import Link from 'next/link'
 
 const Signin = () => {
 const [email, setEmail] = useState('')
@@ -118,6 +119,7 @@ const [email, setEmail] = useState('')
              <Image src={group}  width={20} height={20} alt='google' />
           </button>
         </div>
+        <div className="mt-4 text-center text-sm text-gray-600">Need to create <Link href="/signup" className="text-blue-600">an account?</Link></div>
       </div>
 
       {error && (

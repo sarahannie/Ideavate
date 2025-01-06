@@ -57,24 +57,25 @@ const Navbar = () => {
               </div>
             </div>
             <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-              <button
+              <Link
+                href="/signin"
                 type="button"
-                className=" hidden sm:block relative rounded-full  p-1 text-dark hover:text-green focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                className=" hidden sm:block relative rounded-full  p-1 text-dark hover:text-green focus:outline-none "
               >
                 Log in
-              </button>
+              </Link>
               <div className="relative ml-3">
                 <div>
-                  <button
-                  
+                  <Link
+                    href="/signup"
                     type="button"
-                    className="hidden sm:block relative flex rounded-md bg-green p-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800"
+                    className="hidden sm:block relative flex rounded-md bg-green p-2 text-sm text-white focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-green"
                     id="user-menu-button"
                     aria-expanded="false"
                     aria-haspopup="true"
                   >
                     Sign up
-                  </button>
+                  </Link>
                 </div>
               </div>
               <div className=" sm:hidden">
