@@ -14,24 +14,35 @@ const [email, setEmail] = useState('')
   const [keepLoggedIn, setKeepLoggedIn] = useState(false)
   const [error, setError] = useState('')
   const router = useRouter()
-    const handleSubmit = async (e) => {
-        e.preventDefault()
-        try {
-          const result = await signIn('credentials', {
-            redirect: false,
-            email,
-            password,
-          })
-    
-          if (result?.error) {
-            setError(result.error)
-          } else {
-            router.push('/dashboard') // Redirect to dashboard on successful sign-in
-          }
-        } catch (error) {
-          setError('An error occurred during sign-in')
-        }
+  const [isLoading, setIsLoading] = useState(false)
+ 
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setError('')
+    setIsLoading(true)
+
+    try {
+      const response = await fetch('/api/auth/signin', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, password }),
+      })
+
+      const data = await response.json()
+
+      if (response.ok) {
+        router.push('/dashboard') // Redirect to dashboard on successful sign-in
+      } else {
+        setError(data.message || 'An error occurred during sign-in')
       }
+    } catch (error) {
+      console.error('Sign-in error:', error)
+      setError('An error occurred during sign-in. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
   return (
     <>
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
