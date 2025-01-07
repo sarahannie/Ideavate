@@ -16,28 +16,31 @@ const Signup = () => {
   const [error, setError] = useState('')
   const router = useRouter()
 
-    const handleSubmit = async(e) =>{
-        e.preventDefault()
-        try{
-            const response = await fetch('/api/auth/signup',{
-                method :'POST',
-                headers:{'Content-Type':'application/json'},
-                body:JSON-stringify({name, email, password})
-            })
-            if(response.ok){
-                    router.push('/sigin')
-            }else{
-                const data = await response.json()
-                setError(data.message)
-            }
-        }catch{
-            setError('An error occurred during sign-up')
-        }
-    } 
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent form reload
+    try {
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, password }) // Corrected JSON.stringify
+      });
+  
+      if (response.ok) {
+        router.push('/signin'); // Redirect to the login page
+      } else {
+        const data = await response.json();
+        setError(data.message); // Display error message from the server
+      }
+    } catch (err) {
+      console.error(err); // Log the error for debugging
+      setError('An error occurred during sign-up'); // Display generic error
+    }
+  };
+
   return (
     <>
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
-    <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-xl shadow-lg shadow-indigo-200/50">
+    <div className="max-w-md w-full space-y-8 px-8 py-2 my-7 bg-white rounded-xl shadow-lg shadow-indigo-200/50">
     <div className="text-center">
           <h2 className="mt-6 text-3xl font-extrabold text-gray-900">Sign up</h2>
           <p className="mt-2 text-sm text-gray-600">Create a new account</p>
