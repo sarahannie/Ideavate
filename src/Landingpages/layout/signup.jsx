@@ -46,7 +46,7 @@ const Signup = () => {
     setIsLoading(true);
 
     try {
-      const result = await signIn('google', { callbackUrl: '/', redirect: false });
+      const result = await signIn('google', { callbackUrl: '/dashboard', redirect: false });
       if (result?.error) {
         toast.error(result.error || 'Google sign-up failed. Please try again.');
       } else if (result?.url) {
