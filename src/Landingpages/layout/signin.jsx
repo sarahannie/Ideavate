@@ -1,12 +1,13 @@
 'use client'
 
-import { useState } from 'react'
-// import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
+
+import { signIn } from 'next-auth/react'
 import React from 'react'
 import group from '@/public/Group.png'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useState, useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 
 const Signin = () => {
 const [email, setEmail] = useState('')
@@ -15,6 +16,17 @@ const [email, setEmail] = useState('')
   const [error, setError] = useState('')
   const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
+  const searchParams = useSearchParams()
+
+  useEffect(() => {
+    const error = searchParams.get('error')
+    if (error === 'OAuthAccountNotLinked') {
+      setError('An account already exists with this email. Please sign in with your password or use a different Google account.')
+    }
+  }, [searchParams])
+
+
+
  
 
   const handleSubmit = async (e) => {
@@ -43,6 +55,22 @@ const [email, setEmail] = useState('')
       setIsLoading(false)
     }
   }
+
+  const handleGoogleSignIn = async () => {
+    setIsLoading(true)
+    try {
+      const result = await signIn('google', { callbackUrl: '/dashboard' })
+      if (result?.error) {
+        console.error(result.error)
+      }
+    } catch (error) {
+      console.error('An error occurred during sign-in:', error)
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  
   return (
     <>
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -127,11 +155,12 @@ const [email, setEmail] = useState('')
         <div className="mt-6 ">
         
           <button
-            onClick={() => signIn('google')}
+            onClick={handleGoogleSignIn}
+            disabled={isLoading}
             className="w-full flex justify-center gap-2 font-semibold py-2 px-4 border border-gray-300 rounded-md shadow-sm text-md font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            
-             Sign in with Google
+              {isLoading ? 'Signing in...' : 'Sign in with Google'}
+           
              <Image src={group}  width={20} height={20} alt='google' />
           </button>
         </div>
