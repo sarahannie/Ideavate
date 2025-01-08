@@ -44,7 +44,7 @@ const [email, setEmail] = useState('')
       const data = await response.json()
 
       if (response.ok) {
-        router.push('/dashboard') // Redirect to dashboard on successful sign-in
+        router.push('/innovator/dashboard') // Redirect to dashboard on successful sign-in
       } else {
         setError(data.message || 'An error occurred during sign-in')
       }
@@ -59,7 +59,7 @@ const [email, setEmail] = useState('')
   const handleGoogleSignIn = async () => {
     setIsLoading(true)
     try {
-      const result = await signIn('google', { callbackUrl: '/dashboard' })
+      const result = await signIn('google', { callbackUrl: '/innovator/dashboard' })
       if (result?.error) {
         console.error(result.error)
       }
