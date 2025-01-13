@@ -3,75 +3,6 @@ import GoogleProvider from 'next-auth/providers/google'
 import { MongoDBAdapter } from '@auth/mongodb-adapter'
 import clientPromise from '@/app/lib/mongodb'
 
-// export const authOptions = {
-//   providers: [
-//     GoogleProvider({
-//       clientId: process.env.GOOGLE_CLIENT_ID,
-//       clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-//     }),
-//   ],
-//   adapter: MongoDBAdapter(clientPromise),
-//   callbacks: {
-//     async signIn({ user, account, profile }) {
-//       const { name, email } = user;
-//       const client = await clientPromise;
-//       const db = client.db();
-    
-//       if (account.provider === "google") {
-//         const existingUser = await db.collection('users').findOne({ email });
-    
-//         if (!existingUser) {
-//           // Create a new user if none exists
-//           await db.collection('users').insertOne({
-//             name,
-//             email,
-//             googleId: profile.sub,
-//             createdAt: new Date(),
-//           });
-//         } else if (!existingUser.googleId) {
-//           // If user exists but Google account is not linked, link it
-//           await db.collection('users').updateOne(
-//             { email },
-//             { $set: { googleId: profile.sub } }
-//           );
-//         }
-//       }
-      
-//       // Always return true to allow sign-in
-//       return true;
-//     },
-//     async session({ session, token }) {
-//       if (token) {
-//         session.user.id = token.id;
-//         session.user.email = token.email;
-//       }
-//       return session;
-//     },
-//     async jwt({ token, user, account }) {
-//       if (user) {
-//         token.id = user.id;
-//         token.email = user.email;
-//       }
-//       if (account) {
-//         token.accessToken = account.access_token;
-//       }
-//       return token;
-//     },
-//   },
-//   pages: {
-//     signIn: '/signin',
-//     error: '/signup',  // Redirect to the signin page for errors
-//   },
-//   session: {
-//     strategy: 'jwt',
-//   },
-//   secret: process.env.NEXTAUTH_SECRET,
-// }
-
-// const handler = NextAuth(authOptions);
-
-// export { handler as GET, handler as POST };
-
 export const authOptions = {
   providers: [
     GoogleProvider({
@@ -82,44 +13,62 @@ export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
     async signIn({ user, account, profile }) {
-      const { email } = user;
+      const { name, email } = user;
       const client = await clientPromise;
       const db = client.db();
     
       if (account.provider === "google") {
         const existingUser = await db.collection('users').findOne({ email });
     
-        if (existingUser && !existingUser.googleId) {
-          // If user exists but Google account is not linked, update the user
+        if (!existingUser) {
+          // Create a new user if none exists
+          await db.collection('users').insertOne({
+            name,
+            email,
+            googleId: profile.sub,
+            createdAt: new Date(),
+          });
+        } else if (!existingUser.googleId) {
+          // If user exists but Google account is not linked, link it
           await db.collection('users').updateOne(
             { email },
-            { 
-              $set: { 
-                googleId: profile.sub,
-                name: user.name,
-                image: user.image
-              } 
-            }
+            { $set: { googleId: profile.sub } }
           );
-          return true;
         }
       }
       
+      // Always return true to allow sign-in
       return true;
     },
-    async session({ session, user }) {
-      if (session?.user) {
-        session.user.id = user.id;
+    async session({ session, token }) {
+      if (token) {
+        session.user.id = token.id;
+        session.user.email = token.email;
       }
       return session;
+    },
+    async jwt({ token, user, account }) {
+      if (user) {
+        token.id = user.id;
+        token.email = user.email;
+      }
+      if (account) {
+        token.accessToken = account.access_token;
+      }
+      return token;
     },
   },
   pages: {
     signIn: '/signin',
-    error: '/signin', // Redirect to signin page on error
+    error: '/signup',  // Redirect to the signin page for errors
   },
+  session: {
+    strategy: 'jwt',
+  },
+  secret: process.env.NEXTAUTH_SECRET,
 }
 
-const handler = NextAuth(authOptions)
+const handler = NextAuth(authOptions);
 
-export { handler as GET, handler as POST }
+export { handler as GET, handler as POST };
+
