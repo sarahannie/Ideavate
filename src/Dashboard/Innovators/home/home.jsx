@@ -4,19 +4,20 @@ import { StatCard } from '../components/Statecard'
 import { FaClock, FaLightbulb, FaTrophy } from 'react-icons/fa'
 import Image from 'next/image'
 import rock from "@/public/rocket-coins.png"
-import {  useUser } from '@/app/context/user'
+import { useUser } from '@/app/context/user'
+
 
 
 export const Home = () => {
   
- const {user} = useUser()
- console.log(user)
+ const { user } = useUser();
+ console.log(user);
     
   return (
     <>
          <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100">
           <div className="container mx-auto px-6 py-8">
-            <h1 className="text-3xl font-semibold text-gray-900">Welcome back, {user.name}</h1>
+            <h1 className="text-3xl font-semibold text-gray-900">Welcome back, Annie</h1>
             <p className="mt-2 text-gray-600">Track and manage all your ideas submitted</p>
             
             <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
