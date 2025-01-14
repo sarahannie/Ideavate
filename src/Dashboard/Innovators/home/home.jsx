@@ -22,8 +22,8 @@ export const Home = () => {
             
             <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
               <StatCard title="Total Ideas" value="2" change="8.5%"icon={FaLightbulb} />
-              <StatCard title="Waiting Ideas" value="1" icon={FaClock} />
-              <StatCard title="Ranked Ideas" value="1" icon={FaTrophy} />
+              <StatCard title="Waiting Ideas" value="1" start="1.3%" icon={FaClock} />
+              <StatCard title="Ranked Ideas" value="1" down={"4.3%"} icon={FaTrophy} />
             </div>
           </div>
           <section className=" container w-full bg-gradient-to-r from-green to-white py-9 rounded-lg mx-5 px-3 mb-5">

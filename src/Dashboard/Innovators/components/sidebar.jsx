@@ -2,10 +2,11 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
-import { FaHome, FaLightbulb, FaCommentDots, FaChartLine, FaTimes } from 'react-icons/fa'
+import { FaHome, FaLightbulb, FaCommentDots, FaChartLine, FaTimes, FaSchlix } from 'react-icons/fa'
 
 const sidebarItems = [
   { name: 'Dashboard', icon: FaHome, href: '/innovator/dashboard' },
+  { name: 'Submit Idea', icon: FaSchlix, href: '/innovator/submit' },
   { name: 'My Ideas', icon: FaLightbulb, href: '/innovator/my-ideas' },
   { name: 'Expert Feedback', icon: FaCommentDots, href: '/innovator/expert-feedback' },
   { name: 'Funding Progress', icon: FaChartLine, href: '/innovator/funding-progress' },

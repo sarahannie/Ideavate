@@ -1,6 +1,6 @@
-import { FaArrowUp } from 'react-icons/fa'
+import { FaArrowDown, FaArrowUp, FaCartArrowDown, FaChartLine } from 'react-icons/fa'
 
-export function StatCard({ title, value, change, icon: Icon }) {
+export function StatCard({ title, value, change, start, down, icon: Icon }) {
   return (
     <div className="bg-white p-6 rounded-lg shadow">
       <div className="flex items-center justify-between">
@@ -14,6 +14,22 @@ export function StatCard({ title, value, change, icon: Icon }) {
           {change} from yesterday
         </p>
       )}
+      {
+        start && (
+          <p className="mt-2 flex items-center text-sm text-green-600">
+            <FaChartLine className="h-4 w-4 mr-1 text-green" />
+            <span className='text-green'>{start}</span> up from past week
+          </p>
+        )
+      }
+      {
+        down && (
+          <p className="mt-2 flex items-center text-sm text-green-600">
+            <FaArrowDown className="h-4 w-4 mr-1 text-red-600" />
+           <span className='text-red-600'>{down}</span> down from past week 
+          </p>
+        )
+      }
     </div>
   )
 }
