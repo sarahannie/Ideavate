@@ -1,26 +1,33 @@
 'use client'
 
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { LuTrendingUp,  LuLightbulb,  LuCalendar, LuSearch} from 'react-icons/lu'
 
 // Mock data for ideas
 const mockIdeas = [
-  { id: 1, title: "Eco-Friendly Packaging", category: "Environment", rating: 4.5, date: "2023-05-15", status: "ranked" },
-  { id: 2, title: "AI-Powered Health Assistant", category: "Healthcare", rating: 4.8, date: "2023-05-10", status: "funded" },
-  { id: 3, title: "Sustainable Urban Farming", category: "Agriculture", rating: 4.2, date: "2023-05-20", status: "waiting" },
-  { id: 4, title: "Renewable Energy Storage", category: "Energy", rating: 4.6, date: "2023-05-18", status: "ranked" },
-  { id: 5, title: "Smart City Traffic Management", category: "Technology", rating: 4.3, date: "2023-05-12", status: "waiting" },
-]
+    { id: 1, title: "Eco-Friendly Packaging", category: "Environment", rating: 4.5, date: "2023-05-15", status: "ranked", score: 85, fullName: "John Doe", email: "john@example.com", description: "Biodegradable packaging solution for consumer goods." },
+    { id: 2, title: "AI-Powered Health Assistant", category: "Healthcare", rating: 4.8, date: "2023-05-10", status: "funded", score: 92, fullName: "Jane Smith", email: "jane@example.com", description: "Personal health assistant using artificial intelligence." },
+    { id: 3, title: "Sustainable Urban Farming", category: "Agriculture", rating: 4.2, date: "2023-05-20", status: "waiting", score: 78, fullName: "Bob Johnson", email: "bob@example.com", description: "Vertical farming solution for urban areas." },
+    { id: 4, title: "Renewable Energy Storage", category: "Energy", rating: 4.6, date: "2023-05-18", status: "ranked", score: 88, fullName: "Alice Brown", email: "alice@example.com", description: "Advanced battery technology for renewable energy storage." },
+    { id: 5, title: "Smart City Traffic Management", category: "Technology", rating: 4.3, date: "2023-05-12", status: "waiting", score: 82, fullName: "Charlie Wilson", email: "charlie@example.com", description: "AI-driven traffic management system for smart cities." },
+  ]
 
 export default function IdeaDashboard() {
   const [searchTerm, setSearchTerm] = useState('')
   const [dateFilter, setDateFilter] = useState('')
+  const router = useRouter()
 
   // Filter ideas based on search term and date filter
   const filteredIdeas = mockIdeas.filter(idea => 
     idea.title.toLowerCase().includes(searchTerm.toLowerCase()) &&
     (dateFilter === '' || idea.date === dateFilter)
   )
+
+  const handleRowClick = (id) => {
+    router.push(`/innovator/idea/${id}`)
+  }
+
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -93,7 +100,10 @@ export default function IdeaDashboard() {
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white">
             <thead>
-              <tr className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal">
+              <tr
+               className="bg-gray-200 text-gray-600 uppercase text-sm leading-normal"
+               
+               >
                 <th className="py-3 px-6 text-left">Project Title</th>
                 <th className="py-3 px-6 text-left">Category</th>
                 <th className="py-3 px-6 text-left">Rating</th>
@@ -103,7 +113,7 @@ export default function IdeaDashboard() {
             </thead>
             <tbody className="text-gray-600 text-sm font-light">
               {filteredIdeas.map((idea) => (
-                <tr key={idea.id} className="border-b border-gray-200 hover:bg-gray-100">
+                <tr key={idea.id} className="border-b border-gray-200 hover:bg-gray-100" onClick={() => handleRowClick(idea.id)}>
                   <td className="py-3 px-6 text-left whitespace-nowrap">
                     <span className="font-medium">{idea.title}</span>
                   </td>
