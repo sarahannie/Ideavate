@@ -4,6 +4,7 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { FaUser, FaChartBar, FaDollarSign } from 'react-icons/fa'
 import EvaluationDetails from '../feedback/feedbackpage'
+import FundingProgress from '../funding/funding'
 
 // Mock data (in a real application, you'd fetch this data based on the ID)
 const mockIdeas = [
@@ -136,16 +137,11 @@ export default function IdeaDetail({ id }) {
   )
 
   const renderEvaluationDetails = () => (
-    
       <EvaluationDetails />
-    
   )
 
   const renderFundingDetails = () => (
-    <div className="bg-white rounded-lg shadow p-6">
-      <h2 className="text-2xl font-bold mb-4">Funding Details</h2>
-      <p>Funding details will be displayed here.</p>
-    </div>
+    <FundingProgress />
   )
 
   return (
