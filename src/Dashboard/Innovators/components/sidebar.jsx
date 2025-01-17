@@ -8,7 +8,7 @@ const sidebarItems = [
   { name: 'Dashboard', icon: FaHome, href: '/innovator/dashboard' },
   { name: 'Submit Idea', icon: FaSchlix, href: '/innovator/submit' },
   { name: 'My Ideas', icon: FaLightbulb, href: '/innovator/idea' },
-  { name: 'Expert Feedback', icon: FaCommentDots, href: '/innovator/expert-feedback' },
+  { name: 'Expert Feedback', icon: FaCommentDots, href: '/innovator/feedback' },
   { name: 'Funding Progress', icon: FaChartLine, href: '/innovator/funding-progress' },
 ]
 
