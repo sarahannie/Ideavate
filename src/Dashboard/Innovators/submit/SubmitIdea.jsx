@@ -1,83 +1,141 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import Image from 'next/image'
-import { FaUser, FaLock, FaCreditCard, FaEnvelope, FaBell, FaIdCard } from 'react-icons/fa'
-import Team from '@/public/Team (1).png'
+import { useState, useEffect } from "react"
+import Image from "next/image"
+import { FaUser, FaLock, FaCreditCard, FaEnvelope, FaBell, FaIdCard } from "react-icons/fa"
+import Team from "@/public/Team (1).png"
+import Link from "next/link"
 
 const navItems = [
-  { name: 'My Details', icon: FaUser },
-  { name: 'Profile Update', icon: FaIdCard },
-  { name: 'Password', icon: FaLock },
-  { name: 'Plan', icon: FaCreditCard },
-  { name: 'Email', icon: FaEnvelope },
-  { name: 'Notifications', icon: FaBell },
+  { name: "My Details", icon: FaUser },
+  { name: "Profile Update", icon: FaIdCard },
+  { name: "Password", icon: FaLock },
+  { name: "Plan", icon: FaCreditCard },
+  { name: "Email", icon: FaEnvelope },
+  { name: "Notifications", icon: FaBell },
 ]
 
 const ProfileUpdate = () => {
-  const [activeTab, setActiveTab] = useState('My Details')
+  const [activeTab, setActiveTab] = useState("My Details")
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    otherName: '',
-    email: '',
-    dateOfBirth: '',
-    gender: '',
-    contact: '',
-    maritalStatus: '',
-    countryOfResidence: '',
-    localGovernment: '',
-    stateOfOrigin: '',
-    address: '',
-    nationality: '',
-    nin: '',
-    educationLevel: '',
-    preferredLanguage: '',
-    primaryInstitution: '',
-    yearsOfExperience: '',
-    portfolioWebsite: '',
+    firstName: "",
+    lastName: "",
+    otherName: "",
+    email: "",
+    dateOfBirth: "",
+    gender: "",
+    contact: "",
+    maritalStatus: "",
+    countryOfResidence: "",
+    localGovernment: "",
+    stateOfOrigin: "",
+    address: "",
+    nationality: "",
+    nin: "",
+    educationLevel: "",
+    preferredLanguage: "",
+    primaryInstitution: "",
+    yearsOfExperience: "",
+    portfolioWebsite: "",
   })
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("")
+  const [isLoadingProfile, setIsLoadingProfile] = useState(false)
+
+  useEffect(() => {
+    fetchUserProfile()
+  }, [])
+
+  const fetchUserProfile = async () => {
+    setIsLoadingProfile(true)
+    try {
+      const response = await fetch("/api/auth/user")
+      if (!response.ok) {
+        throw new Error("Failed to fetch user profile")
+      }
+      const userData = await response.json()
+      setFormData((prevData) => ({ ...prevData, ...userData }))
+      return userData
+    } catch (error) {
+      console.error("Error fetching user profile:", error)
+      setError("Failed to load user profile")
+      return null
+    } finally {
+      setIsLoadingProfile(false)
+    }
+  }
 
   const handleInputChange = (e) => {
     const { name, value } = e.target
-    setFormData(prevData => ({ ...prevData, [name]: value }))
+    setFormData((prevData) => ({ ...prevData, [name]: value }))
   }
 
-  const isFormComplete = Object.values(formData).every(value => value !== '')
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    setIsLoading(true)
+    setError("")
+    setSuccessMessage("")
+
+    try {
+      const response = await fetch("/api/auth/user/profile", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to update profile")
+      }
+
+      setSuccessMessage("Profile updated successfully")
+      setActiveTab("My Details")
+    } catch (error) {
+      console.error("Error updating profile:", error)
+      setError("Failed to update profile. Please try again.")
+    } finally {
+      setIsLoading(false)
+    }
+  }
+
+  const isFormComplete = Object.values(formData).every((value) => value !== "")
 
   // This would typically come from your authentication context or API
   const user = {
-    name: 'Annie',
-    email: 'annie@example.com',
+    name: `${formData.firstName} ${formData.lastName}`,
+    email: formData.email,
     avatar: Team,
   }
 
   const renderMyDetails = () => (
     <div className="bg-white rounded-lg shadow p-6">
       <h2 className="text-2xl font-bold mb-4">Welcome, {user.name}</h2>
-      {/* <p className="text-green-600 mb-4">Your Profile has been updated Successfully</p>
-      <button className="bg-green text-white px-4 py-2 rounded hover:bg-green-600 mb-6">
-        Proceed to submit your idea
-      </button> */}
-      <h3 className="text-xl font-semibold mb-4">Submit your personal info</h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
-        {Object.entries(formData).map(([key, value]) => (
-          <div key={key} className="mb-4">
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
-            </label>
-            <p className="text-gray-900">{value || 'Not provided'}</p>
-          </div>
-        ))}
-      </div>
+      {successMessage && <p className="text-green-600 mb-4">{successMessage}</p>}
+      <h3 className="text-xl font-semibold mb-4">Your Personal Info</h3>
+      {isLoadingProfile ? (
+        <p>Loading profile...</p>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {Object.entries(formData).map(([key, value]) => (
+            <div key={key} className="mb-4">
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                {key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
+              </label>
+              <p className="text-gray-900">{value || "Not provided"}</p>
+            </div>
+          ))}
+        </div>
+      )}
       {isFormComplete ? (
-        <button className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600 mt-4">
+        <Link href='/innovator/form' className="bg-green text-white px-4 py-2 rounded hover:bg-black mt-4">
           Proceed to submit idea
-        </button>
+        </Link>
       ) : (
         <button
           className="bg-gray-300 text-gray-600 px-4 py-2 rounded mt-4 cursor-not-allowed"
-          onClick={() => setActiveTab('Profile Update')}
+          onClick={() => setActiveTab("Profile Update")}
         >
           Fill out all details to proceed to submit your idea
         </button>
@@ -87,11 +145,10 @@ const ProfileUpdate = () => {
 
   const renderProfileUpdate = () => (
     <div className="flex flex-col md:flex-row gap-8">
-      {/* Left column with user info and picture */}
       <div className="w-full md:w-1/3">
         <div className="bg-white rounded-lg shadow p-6">
           <Image
-            src={user.avatar}
+            src={user.avatar || "/placeholder.svg"}
             alt="User avatar"
             width={200}
             height={200}
@@ -106,17 +163,17 @@ const ProfileUpdate = () => {
         </div>
       </div>
 
-      {/* Right column with form */}
       <div className="w-full md:w-2/3">
         <div className="bg-white rounded-lg shadow p-6">
           <h3 className="text-xl font-semibold mb-6">Profile Update</h3>
-          <form className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {error && <p className="text-red-600 mb-4">{error}</p>}
+          <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {Object.entries(formData).map(([key, value]) => (
               <div key={key}>
                 <label htmlFor={key} className="block text-sm font-medium text-gray-700 mb-1">
-                  {key.replace(/([A-Z])/g, ' $1').replace(/^./, str => str.toUpperCase())}
+                  {key.replace(/([A-Z])/g, " $1").replace(/^./, (str) => str.toUpperCase())}
                 </label>
-                {key === 'gender' || key === 'maritalStatus' || key === 'educationLevel' ? (
+                {key === "gender" || key === "maritalStatus" || key === "educationLevel" ? (
                   <select
                     id={key}
                     name={key}
@@ -124,15 +181,15 @@ const ProfileUpdate = () => {
                     onChange={handleInputChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
                   >
-                    <option value="">Select {key.replace(/([A-Z])/g, ' $1').toLowerCase()}</option>
-                    {key === 'gender' && (
+                    <option value="">Select {key.replace(/([A-Z])/g, " $1").toLowerCase()}</option>
+                    {key === "gender" && (
                       <>
                         <option value="male">Male</option>
                         <option value="female">Female</option>
                         <option value="other">Other</option>
                       </>
                     )}
-                    {key === 'maritalStatus' && (
+                    {key === "maritalStatus" && (
                       <>
                         <option value="single">Single</option>
                         <option value="married">Married</option>
@@ -140,7 +197,7 @@ const ProfileUpdate = () => {
                         <option value="widowed">Widowed</option>
                       </>
                     )}
-                    {key === 'educationLevel' && (
+                    {key === "educationLevel" && (
                       <>
                         <option value="highSchool">High School</option>
                         <option value="bachelor">Bachelor's Degree</option>
@@ -151,7 +208,15 @@ const ProfileUpdate = () => {
                   </select>
                 ) : (
                   <input
-                    type={key === 'email' ? 'email' : key === 'dateOfBirth' ? 'date' : key === 'yearsOfExperience' ? 'number' : 'text'}
+                    type={
+                      key === "email"
+                        ? "email"
+                        : key === "dateOfBirth"
+                          ? "date"
+                          : key === "yearsOfExperience"
+                            ? "number"
+                            : "text"
+                    }
                     id={key}
                     name={key}
                     value={value}
@@ -174,8 +239,12 @@ const ProfileUpdate = () => {
               />
             </div>
             <div className="col-span-2">
-              <button type="submit" className="bg-green text-white px-4 py-2 rounded hover:bg-black">
-                Update Profile
+              <button
+                type="submit"
+                className="bg-green text-white px-4 py-2 rounded hover:bg-black"
+                disabled={isLoading}
+              >
+                {isLoading ? "Updating..." : "Update Profile"}
               </button>
             </div>
           </form>
@@ -183,6 +252,7 @@ const ProfileUpdate = () => {
       </div>
     </div>
   )
+
   const renderPasswordSection = () => (
     <div className="bg-white rounded-lg shadow p-6">
       <h2 className="text-2xl font-bold mb-4">Password Management</h2>
@@ -198,7 +268,6 @@ const ProfileUpdate = () => {
 
   return (
     <div className="flex flex-col">
-      {/* Top navbar */}
       <div className="w-full p-4 mb-6">
         <nav>
           <ul className="flex space-x-4">
@@ -208,8 +277,8 @@ const ProfileUpdate = () => {
                   onClick={() => setActiveTab(item.name)}
                   className={`flex items-center p-2 rounded-lg transition-all ${
                     activeTab === item.name
-                      ? 'bg-white text-green shadow-md outline outline-2 outline-green-500 border-b-2 border-green'
-                      : 'hover:bg-gray-200'
+                      ? "bg-white text-green shadow-md outline outline-2 outline-green-500 border-b-2 border-green"
+                      : "hover:bg-gray-200"
                   }`}
                 >
                   <item.icon className="w-5 h-5 mr-2" />
@@ -221,12 +290,10 @@ const ProfileUpdate = () => {
         </nav>
       </div>
 
-      {/* Main content */}
       <div className="px-4">
-        {activeTab === 'My Details' && renderMyDetails()}
-        {activeTab === 'Profile Update' && renderProfileUpdate()}
-        {activeTab === 'Password' && renderPasswordSection()}
-        {/* Add other tab contents here */}
+        {activeTab === "My Details" && renderMyDetails()}
+        {activeTab === "Profile Update" && renderProfileUpdate()}
+        {activeTab === "Password" && renderPasswordSection()}
       </div>
     </div>
   )
