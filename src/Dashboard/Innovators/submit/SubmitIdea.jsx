@@ -3,8 +3,8 @@
 import { useState, useEffect } from "react"
 import Image from "next/image"
 import { FaUser, FaLock, FaCreditCard, FaEnvelope, FaBell, FaIdCard } from "react-icons/fa"
-import Team from "@/public/Team (1).png"
 import Link from "next/link"
+import team1 from "@/public/Team (1).png"
 
 const navItems = [
   { name: "My Details", icon: FaUser },
@@ -37,11 +37,13 @@ const ProfileUpdate = () => {
     primaryInstitution: "",
     yearsOfExperience: "",
     portfolioWebsite: "",
+    // profilePicture: "",
   })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState("")
   const [successMessage, setSuccessMessage] = useState("")
   const [isLoadingProfile, setIsLoadingProfile] = useState(false)
+  const [profilePicture, setProfilePicture] = useState(null)
 
   useEffect(() => {
     fetchUserProfile()
@@ -71,26 +73,41 @@ const ProfileUpdate = () => {
     setFormData((prevData) => ({ ...prevData, [name]: value }))
   }
 
+  const handleFileChange = (e) => {
+    const file = e.target.files[0]
+    setProfilePicture(file)
+  }
+
   const handleSubmit = async (e) => {
     e.preventDefault()
     setIsLoading(true)
     setError("")
     setSuccessMessage("")
 
+    const formDataToSend = new FormData()
+    Object.entries(formData).forEach(([key, value]) => {
+      formDataToSend.append(key, value)
+    })
+
+    if (profilePicture) {
+      formDataToSend.append("profilePicture", profilePicture)
+    }
+
     try {
       const response = await fetch("/api/auth/user/profile", {
         method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+        body: formDataToSend,
       })
 
       if (!response.ok) {
         throw new Error("Failed to update profile")
       }
 
+      const result = await response.json()
       setSuccessMessage("Profile updated successfully")
+      if (result.profilePicture) {
+        setFormData((prevData) => ({ ...prevData, profilePicture: result.profilePicture }))
+      }
       setActiveTab("My Details")
     } catch (error) {
       console.error("Error updating profile:", error)
@@ -102,11 +119,10 @@ const ProfileUpdate = () => {
 
   const isFormComplete = Object.values(formData).every((value) => value !== "")
 
-  // This would typically come from your authentication context or API
   const user = {
     name: `${formData.firstName} ${formData.lastName}`,
     email: formData.email,
-    avatar: Team,
+    avatar: formData.profilePicture || team1,
   }
 
   const renderMyDetails = () => (
@@ -118,6 +134,15 @@ const ProfileUpdate = () => {
         <p>Loading profile...</p>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="col-span-full mb-4">
+            <Image
+              src={user.avatar || team1}
+              alt="Profile Picture"
+              width={200}
+              height={200}
+              className="rounded-full mx-auto"
+            />
+          </div>
           {Object.entries(formData).map(([key, value]) => (
             <div key={key} className="mb-4">
               <label className="block text-sm font-medium text-gray-700 mb-1">
@@ -129,7 +154,7 @@ const ProfileUpdate = () => {
         </div>
       )}
       {isFormComplete ? (
-        <Link href='/innovator/form' className="bg-green text-white px-4 py-2 rounded hover:bg-black mt-4">
+        <Link href="/innovator/form" className="bg-green text-white px-4 py-2 rounded hover:bg-black mt-4">
           Proceed to submit idea
         </Link>
       ) : (
@@ -148,7 +173,7 @@ const ProfileUpdate = () => {
       <div className="w-full md:w-1/3">
         <div className="bg-white rounded-lg shadow p-6">
           <Image
-            src={user.avatar || "/placeholder.svg"}
+            src={formData.profilePicture || user.avatar || team1}
             alt="User avatar"
             width={200}
             height={200}
@@ -235,6 +260,7 @@ const ProfileUpdate = () => {
                 id="profilePicture"
                 name="profilePicture"
                 accept="image/*"
+                onChange={handleFileChange}
                 className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500"
               />
             </div>
