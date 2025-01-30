@@ -1,54 +1,92 @@
-'use client'
+"use client"
 
-import { useState } from 'react'
-import { FaUpload } from 'react-icons/fa'
+import { useState } from "react"
+import { FaUpload } from "react-icons/fa"
+import { useRouter } from "next/navigation"
 
-const projectCategories = ['Technology', 'Healthcare', 'Education', 'Finance', 'Environment', 'Other']
-const projectStages = ['Idea', 'Prototype', 'MVP', 'Full Product']
+const projectCategories = ["Technology", "Healthcare", "Education", "Finance", "Environment", "Other"]
+const projectStages = ["Idea", "Prototype", "MVP", "Full Product"]
 
 const Formsubmt = () => {
   const [formData, setFormData] = useState({
-    title: '',
-    category: '',
-    description: '',
-    stage: '',
-    fundingGoals: '',
-    timelineEstimate: '',
-    problem: '',
-    monetization: '',
-    potentialEarnings: '',
-    competitors: '',
-    marketChange: '',
-    idealCustomer: '',
+    title: "",
+    category: "",
+    description: "",
+    stage: "",
+    fundingGoals: "",
+    timelineEstimate: "",
+    problem: "",
+    monetization: "",
+    potentialEarnings: "",
+    competitors: "",
+    marketChange: "",
+    idealCustomer: "",
     pitchDeck: null,
-    videoPitchLink: '',
-    fundingMotivation: '',
-    significantAchievement: '',
-    fundingJustification: '',
-    termsAgreed: false
+    videoPitchLink: "",
+    fundingMotivation: "",
+    significantAchievement: "",
+    fundingJustification: "",
+    termsAgreed: false,
   })
+  const router = useRouter()
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [successMessage, setSuccessMessage] = useState("")
 
   const handleInputChange = (e) => {
     const { name, value, type, checked, files } = e.target
-    setFormData(prevData => ({
+    setFormData((prevData) => ({
       ...prevData,
-      [name]: type === 'checkbox' ? checked : type === 'file' ? files[0] : value
+      [name]: type === "checkbox" ? checked : type === "file" ? files[0] : value,
     }))
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    // Here you would typically send the form data to your backend
-    console.log(formData)
-    // Reset form or redirect user after successful submission
+    setIsLoading(true)
+    setError("")
+
+    try {
+      const formDataToSend = new FormData()
+      Object.entries(formData).forEach(([key, value]) => {
+        if (key === "pitchDeck" && value instanceof File) {
+          formDataToSend.append(key, value)
+        } else if (typeof value === "string" || typeof value === "number") {
+          formDataToSend.append(key, value.toString())
+        }
+      })
+
+      const response = await fetch("/api/auth/innovetors", {
+        method: "POST",
+        body: formDataToSend,
+      })
+
+      if (!response.ok) {
+        throw new Error("Failed to submit idea")
+      }
+
+      const result = await response.json()
+      console.log(result)
+      setSuccessMessage("Your idea has been submitted successfully!")
+      router.push("/innovator/idea")
+      // Reset form or redirect user after successful submission
+    } catch (error) {
+      console.error("Error submitting idea:", error)
+      setError("Failed to submit idea. Please try again.")
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Submit your idea</h1>
 
+      {error && <p className="text-red-600 mb-4">{error}</p>}
+      {successMessage && <p className="text-green-600 mb-4">{successMessage}</p>}
+
       <form onSubmit={handleSubmit} className="space-y-6 shadow rounded-lg p-6">
-      <p className="text-lg mb-8">Fill in the details</p>
+        <p className="text-lg mb-8">Fill in the details</p>
         <div>
           <label htmlFor="title" className="block text-sm font-medium text-gray-700 mb-1">
             Project/Idea Title
@@ -78,8 +116,10 @@ const Formsubmt = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select a category</option>
-              {projectCategories.map(category => (
-                <option key={category} value={category}>{category}</option>
+              {projectCategories.map((category) => (
+                <option key={category} value={category}>
+                  {category}
+                </option>
               ))}
             </select>
           </div>
@@ -97,8 +137,10 @@ const Formsubmt = () => {
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="">Select a stage</option>
-              {projectStages.map(stage => (
-                <option key={stage} value={stage}>{stage}</option>
+              {projectStages.map((stage) => (
+                <option key={stage} value={stage}>
+                  {stage}
+                </option>
               ))}
             </select>
           </div>
@@ -250,7 +292,10 @@ const Formsubmt = () => {
             <div className="space-y-1 text-center">
               <FaUpload className="mx-auto h-12 w-12 text-gray-400" />
               <div className="flex text-sm text-gray-600">
-                <label htmlFor="pitchDeck" className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                <label
+                  htmlFor="pitchDeck"
+                  className="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500"
+                >
                   <span>Upload a file</span>
                   <input
                     id="pitchDeck"
@@ -330,7 +375,18 @@ const Formsubmt = () => {
         <div className="space-y-4">
           <h3 className="text-lg font-medium">Terms and Consent</h3>
           <p className="text-sm text-gray-600">
-            Entrepreneurs retain ownership of their ideas but grant the platform a non-exclusive license to use the submission for evaluation, promotional, and investment facilitation purposes. Submitted ideas will be evaluated and ranked by registered Experts based on predefined criteria. The platform reserves the right to determine how ideas are displayed and does not guarantee funding or approval of any submission. Entrepreneurs are responsible for ensuring the accuracy of the information provided, and misrepresentation may result in disqualification and account termination. The platform is not liable for any damages arising from exposure, evaluation outcomes, or lack of funding. The platform collects and processes user data per its Privacy Policy. It reserves the right to modify these Terms and Conditions at any time, with significant changes communicated to users. The platform may suspend or terminate accounts for violations of these Terms and Conditions without prior notice. These Terms and Conditions are governed by the laws of the Federal Republic of Nigeria. Disputes will be resolved through arbitration in Lagos, Nigeria, under the rules set by the Arbitration and Conciliation Act of Nigeria or any applicable legislation.
+            Entrepreneurs retain ownership of their ideas but grant the platform a non-exclusive license to use the
+            submission for evaluation, promotional, and investment facilitation purposes. Submitted ideas will be
+            evaluated and ranked by registered Experts based on predefined criteria. The platform reserves the right to
+            determine how ideas are displayed and does not guarantee funding or approval of any submission.
+            Entrepreneurs are responsible for ensuring the accuracy of the information provided, and misrepresentation
+            may result in disqualification and account termination. The platform is not liable for any damages arising
+            from exposure, evaluation outcomes, or lack of funding. The platform collects and processes user data per
+            its Privacy Policy. It reserves the right to modify these Terms and Conditions at any time, with significant
+            changes communicated to users. The platform may suspend or terminate accounts for violations of these Terms
+            and Conditions without prior notice. These Terms and Conditions are governed by the laws of the Federal
+            Republic of Nigeria. Disputes will be resolved through arbitration in Lagos, Nigeria, under the rules set by
+            the Arbitration and Conciliation Act of Nigeria or any applicable legislation.
           </p>
           <div className="flex items-start">
             <input
@@ -358,8 +414,9 @@ const Formsubmt = () => {
           <button
             type="submit"
             className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-green hover:bg-black focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            disabled={isLoading}
           >
-            Submit
+            {isLoading ? "Submitting..." : "Submit"}
           </button>
         </div>
       </form>
@@ -368,3 +425,4 @@ const Formsubmt = () => {
 }
 
 export default Formsubmt
+
