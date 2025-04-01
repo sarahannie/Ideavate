@@ -1,92 +1,53 @@
-import { hash } from 'bcryptjs'
-import { NextResponse } from 'next/server'
-import clientPromise from '@/app/lib/mongodb'
-import NextAuth from 'next-auth'
-import GoogleProvider from 'next-auth/providers/google'
-import { MongoDBAdapter } from '@auth/mongodb-adapter'
-
-
-
-export const authOptions = {
-  providers: [
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID,
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    }),
-  ],
-  adapter: MongoDBAdapter(clientPromise),
-  callbacks: {
-    async signIn({ user, account }) {
-      if (account.provider === "google") {
-        const { name, email } = user
-        const client = await clientPromise
-        const db = client.db()
-        const existingUser = await db.collection('users').findOne({ email })
-
-        if (!existingUser) {
-          await db.collection('users').insertOne({
-            name,
-            email,
-            googleId: user.id,
-          })
-        }
-      }
-      return true
-    },
-  },
-}
-
-const handler = NextAuth(authOptions)
-
-export const GET = handler
+import { hash } from "bcryptjs"
+import { NextResponse } from "next/server"
+import clientPromise from "@/app/lib/mongodb"
 
 export async function POST(request) {
-  if (request.headers.get("x-google-signin") === "true") {
-    return handler(request)
-  }
-  
   try {
-    const body = await request.json().catch(() => null);
-    if (!body) {
+    const { name, email, password } = await request.json()
+
+    if (!name || !email || !password) {
       return NextResponse.json(
-        { message: 'Invalid JSON payload' },
-        { status: 400 }
-      );
-    }
-
-const { name, email, password } = body;
-
-    const client = await clientPromise
-    const db = client.db()
-    console.log("Connected to database:", db.databaseName);
-
-    const existingUser = await db.collection('users').findOne({ email })
-
-    if (existingUser) {
-      return NextResponse.json(
-        { message: 'User already exists' },
+        { error: "All fields are required" },
         { status: 400 }
       )
     }
-    console.log("Existing user check:", existingUser);
+
+    const client = await clientPromise
+    const db = client.db()
+
+    // Check if user already exists
+    const existingUser = await db.collection("users").findOne({ email })
+
+    if (existingUser) {
+      return NextResponse.json(
+        { error: "User already exists" },
+        { status: 400 }
+      )
+    }
+
+    // Hash password
     const hashedPassword = await hash(password, 12)
 
-    const result = await db.collection('users').insertOne({
+    // Create user
+    await db.collection("users").insertOne({
       name,
       email,
       password: hashedPassword,
+      emailVerified: null, // Important for NextAuth
+      createdAt: new Date(),
+      updatedAt: new Date(),
     })
 
     return NextResponse.json(
-      { message: 'User created', userId: result.insertedId },
+      { success: true, message: "User created successfully" },
       { status: 201 }
     )
   } catch (error) {
-    console.error(error)
+    console.error("Registration error:", error)
     return NextResponse.json(
-      { message: 'Internal server error' },
+      { error: "Internal server error" },
       { status: 500 }
     )
   }
 }
-

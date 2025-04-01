@@ -36,13 +36,49 @@ export default function EvaluationDetails({ id }) {
         <h1 className="text-2xl font-bold">Expert Evaluation</h1>
       </div>
 
-      <div className="bg-white rounded-lg shadow-md p-6 mb-6">
-        {renderCriterion("Feasibility", evaluation.feasibility)}
-        {renderCriterion("Market Opportunity", evaluation.marketOpportunity)}
-        {renderCriterion("Scalability", evaluation.scalability)}
-        {renderCriterion("Financial Understanding", evaluation.financialUnderstanding)}
-        {renderCriterion("Leadership & Entrepreneurial Skills", evaluation.leadershipSkills)}
-        {renderCriterion("Total", evaluation.total)}
+      
+      <div className="bg-white rounded-lg shadow-md p-6 space-y-6">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">feasibility</label>
+          <div className="border-b-2 border-gray-300 pb-1">
+            <p className="text-sm font-semibold">75%</p>
+          </div>
+          
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">marketOpportunity</label>
+          <div className="border-b-2 border-gray-300 pb-1">
+            <p className="text-sm font-semibold">80%</p>
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1"> scalability</label>
+          <div className="border-b-2 border-gray-300 pb-1">
+            <p className="text-sm font-semibold">30%</p>
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">financialUnderstanding</label>
+          <div className="border-b-2 border-gray-300 pb-1">
+            <p className="text-sm font-semibold">10%</p>
+          </div>
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">leadershipSkills</label>
+          <div className="border-b-2 border-gray-300 pb-1">
+            <p className="text-sm font-semibold">80%</p>
+          </div>
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">total</label>
+          <div className="border-b-2 border-gray-300 pb-1">
+            <p className="text-sm font-semibold">75%</p>
+          </div>
+        </div>
 
         <div className="mt-6">
           <h3 className="text-lg font-semibold mb-2">Additional Remarks</h3>

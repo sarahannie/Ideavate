@@ -8,6 +8,7 @@ const nextConfig = {
           },
         ],
       },
+      allowDangerousEmailAccountLinking: true,
 };
 
 export default nextConfig;
